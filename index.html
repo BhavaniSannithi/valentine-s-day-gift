@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Valentine's Day Surprise</title>
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+  <div class="container">
+    <!-- Countdown Timer -->
+    <div class="countdown-container">
+      <h1 id="for-name">Countdown to Valentine's Day!</h1>
+      <div id="countdown">
+        <div id="days">00</div><span>Days</span>
+        <div id="hours">00</div><span>Hours</span>
+        <div id="minutes">00</div><span>Minutes</span>
+        <div id="seconds">00</div><span>Seconds</span>
+      </div>
+    </div>
+
+    <!-- Hidden Hearts -->
+    <div class="hearts-container">
+      <h2>Click on the hidden hearts for sweet messages!</h2>
+      <div class="heart" id="heart1" onclick="showMessage()"></div>
+      <div class="heart" id="heart2" onclick="showMessage()"></div>
+      <div class="heart" id="heart3" onclick="showMessage()"></div>
+      
+      <!-- Message Container -->
+      <div class="message" id="message-container"></div>
+      
+      <!-- Flower Animation Container -->
+      <div class="flowers-container" id="flowers-container"></div>
+    </div>
+
+    <!-- Virtual Gift -->
+    <div class="gift-container">
+      <h2>Open your Valentine's Gift!</h2>
+      <div class="gift" id="gift"></div>
+    </div>
+
+    <!-- Surprise Message -->
+    <div class="surprise-message" id="surprise-message">
+      <h2>Happy Valentine's Day!</h2>
+      <p>You are the sweetest person in the world!</p>
+      <img src="https://media.tenor.com/hmYv6-dCkGgAAAAj/bubu-dudu-bubu.gif" alt="Heart Animation" />
+    </div>
+  </div>
+
+  <script src="script.js"></script>
+</body>
+</html>
