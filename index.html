@@ -4,11 +4,174 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Valentine's Day Surprise</title>
-  <link rel="stylesheet" href="styles.css">
+  <style>
+    body {
+      font-family: 'Arial', sans-serif;
+      background-color: #ffe6e6;
+      color: #ff0066;
+      text-align: center;
+      margin: 0;
+      padding: 20px;
+    }
+
+    .container {
+      margin: 20px auto;
+    }
+
+    .countdown-container {
+      margin-bottom: 30px;
+    }
+
+    #countdown {
+      display: flex;
+      justify-content: center;
+      gap: 20px;
+    }
+
+    #countdown div {
+      font-size: 2em;
+      background-color: #ff0066;
+      color: #fff;
+      padding: 20px;
+      border-radius: 10px;
+    }
+
+    .hearts-container {
+      margin-top: 20px;
+    }
+
+    .gift-container {
+      margin-top: 20px;
+    }
+
+    .gift {
+      width: 100px;
+      height: 100px;
+      background-color: #ffcc00;
+      position: relative;
+      cursor: pointer;
+      margin: 20px auto;
+      border-radius: 10px;
+    }
+
+    .gift:before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 45%;
+      width: 10px;
+      height: 100%;
+      background-color: #d40000;
+    }
+
+    .gift:after {
+      content: '';
+      position: absolute;
+      top: 45%;
+      left: 0;
+      width: 100%;
+      height: 10px;
+      background-color: #d40000;
+    }
+
+    .surprise-message {
+      display: none;
+      margin-top: 0px;
+      font-size: 20px;
+    }
+
+    .surprise-message img {
+      margin: 0px;
+      width: 300px;
+      height: 300px;
+      margin-top: 0px;
+    }
+
+    .heart {
+      width: 80px;
+      height: 80px;
+      position: relative;
+      background-color: #ff0066;
+      display: inline-block;
+      margin: 15px;
+      cursor: pointer;
+      transform: rotate(-45deg);
+      transition: transform 0.4s ease, background-color 0.4s ease;
+    }
+
+    .heart:before, .heart:after {
+      content: '';
+      width: 80px;
+      height: 80px;
+      background-color: #ff0066;
+      border-radius: 50%;
+      position: absolute;
+    }
+
+    .heart:before {
+      top: -40px;
+      left: 0;
+    }
+
+    .heart:after {
+      top: 0;
+      left: 40px;
+    }
+
+    .heart:hover {
+      transform: rotate(-45deg) scale(1.1);
+    }
+
+    .heart:active {
+      transform: rotate(-45deg) scale(1);
+    }
+
+    .message {
+      margin-top: 20px;
+      font-size: 1.5em;
+      color: #d40000;
+      visibility: hidden;
+      transition: visibility 0.5s ease-in, opacity 0.5s ease-in;
+      opacity: 0;
+    }
+
+    .message.show {
+      visibility: visible;
+      opacity: 1;
+    }
+
+    .flowers-container {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      pointer-events: none;
+    }
+
+    .flower {
+      position: absolute;
+      width: 50px;
+      height: 50px;
+      background-image: url('https://png.pngtree.com/png-clipart/20220125/ourmid/pngtree-falling-pink-rose-petals-for-valentines-day-png-image_4361986.png');
+      background-size: cover;
+      animation: fall linear infinite;
+    }
+
+    @keyframes fall {
+      0% {
+        top: -100px;
+        transform: rotate(0deg);
+      }
+      100% {
+        top: 100vh;
+        transform: rotate(360deg);
+      }
+    }
+  </style>
 </head>
 <body>
   <div class="container">
-    <!-- Countdown Timer -->
     <div class="countdown-container">
       <h1 id="for-name">Countdown to Valentine's Day!</h1>
       <div id="countdown">
@@ -19,27 +182,21 @@
       </div>
     </div>
 
-    <!-- Hidden Hearts -->
     <div class="hearts-container">
       <h2>Click on the hidden hearts for sweet messages!</h2>
       <div class="heart" id="heart1" onclick="showMessage()"></div>
       <div class="heart" id="heart2" onclick="showMessage()"></div>
       <div class="heart" id="heart3" onclick="showMessage()"></div>
       
-      <!-- Message Container -->
       <div class="message" id="message-container"></div>
-      
-      <!-- Flower Animation Container -->
       <div class="flowers-container" id="flowers-container"></div>
     </div>
 
-    <!-- Virtual Gift -->
     <div class="gift-container">
       <h2>Open your Valentine's Gift!</h2>
       <div class="gift" id="gift"></div>
     </div>
 
-    <!-- Surprise Message -->
     <div class="surprise-message" id="surprise-message">
       <h2>Happy Valentine's Day!</h2>
       <p>You are the sweetest person in the world!</p>
@@ -47,6 +204,94 @@
     </div>
   </div>
 
-  <script src="script.js"></script>
+  <script>
+    // Countdown Timer
+    const countdown = () => {
+      const valentineDate = new Date('Feb 14, 2025 00:00:00').getTime();
+      const now = new Date().getTime();
+      const distance = valentineDate - now;
+
+      const days = Math.floor(distance / (1000 * 60 * 60 * 24));
+      const hours = Math.floor((distance % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+      const minutes = Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60));
+      const seconds = Math.floor((distance % (1000 * 60)) / 1000);
+
+      document.getElementById("days").innerHTML = days;
+      document.getElementById("hours").innerHTML = hours;
+      document.getElementById("minutes").innerHTML = minutes;
+      document.getElementById("seconds").innerHTML = seconds;
+
+      if (distance < 0) {
+        clearInterval(timer);
+        document.querySelector(".countdown-container").style.display = 'none';
+        document.getElementById('surprise-message').style.display = 'block';
+      }
+    };
+
+    const timer = setInterval(countdown, 1000);
+
+    // Get the name from the URL and display it
+    const urlParams = new URLSearchParams(window.location.search);
+    const name = urlParams.get('name');
+    if (name) {
+      document.getElementById('for-name').innerText = `For ${name}`;
+    }
+
+    // Hidden Hearts and Messages
+    const messages = [
+      "You're my sunshine!",
+      "You're my better half!",
+      "You're the reason I smile!",
+      "You light up my world!",
+      "My heart beats for you!",
+      "I adore you more than words can say!",
+      "You're my forever Valentine!",
+      "You're sweeter than chocolate!",
+      "You make my heart skip a beat!",
+      "I'm lucky to have you in my life!",
+      "You mean the world to me!",
+      "Every day with you is a treasure!",
+      "Your love completes me!",
+      "You're my favorite person!"
+    ];
+
+    function showMessage() {
+      const randomIndex = Math.floor(Math.random() * messages.length);
+      const messageContainer = document.getElementById('message-container');
+      messageContainer.innerHTML = messages[randomIndex];
+      messageContainer.classList.add('show');
+
+      showFallingFlowers();
+
+      setTimeout(() => {
+        messageContainer.classList.remove('show');
+      }, 3000);
+    }
+
+    function showFallingFlowers() {
+      const flowersContainer = document.getElementById('flowers-container');
+      flowersContainer.innerHTML = '';
+
+      for (let i = 0; i < 100; i++) {
+        const flower = document.createElement('div');
+        flower.classList.add('flower');
+        flower.style.left = Math.random() * 100 + 'vw';
+        flower.style.animationDuration = Math.random() * 5 + 5 + 's';
+        flower.style.opacity = Math.random() + 0.5;
+        flower.style.transform = `scale(${Math.random() * 0.5 + 0.5})`;
+        flowersContainer.appendChild(flower);
+      }
+
+      setTimeout(() => {
+        flowersContainer.innerHTML = '';
+      }, 5000);
+    }
+
+    // Gift Opening
+    const gift = document.getElementById('gift');
+    gift.addEventListener('click', function() {
+      document.getElementById('surprise-message').style.display = 'block';
+    });
+  </script>
 </body>
 </html>
